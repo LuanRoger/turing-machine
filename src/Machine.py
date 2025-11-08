@@ -1,15 +1,13 @@
 from State import State
 from Direction import Direction
 from machine_logger import MachineLogger
-
-# Blank symbol for tape
-BLANK = "_"
+from constants import BLANK
 
 
 class Machine:
     current_state: State
     input_word: str
-    tape: list
+    tape: list[str]
     logger: MachineLogger
     range: int
     current: int

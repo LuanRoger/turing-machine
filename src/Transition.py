@@ -1,6 +1,14 @@
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from State import State
+    from Edge import Edge
+
+
 class Transition:
-    state: object  # State object
-    edge: object   # Edge object
+    state: State
+    edge: Edge
     
     def __init__(self, state, edge):
         self.state = state

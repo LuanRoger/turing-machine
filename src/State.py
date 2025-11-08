@@ -1,3 +1,4 @@
+from __future__ import annotations
 from Edge import Edge
 from Transition import Transition
 from Direction import Direction
@@ -6,7 +7,7 @@ from Direction import Direction
 class State:
     name: str
     isFinal: bool
-    transitions: list
+    transitions: list[Transition]
     
     def __init__(self, name: str):
         self.name = name

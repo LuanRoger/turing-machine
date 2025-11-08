@@ -4,7 +4,7 @@ import logging
 class MachineLogger:
     enabled: bool
     logger: logging.Logger
-    
+
     def __init__(self, enabled: bool = True):
         self.enabled = enabled
         self._setup_logger()

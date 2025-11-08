@@ -12,7 +12,7 @@ class Machine:
     range: int
     current: int
     max: int
-    
+
     def __init__(
         self,
         initial_state: State,

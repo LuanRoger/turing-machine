@@ -8,7 +8,7 @@ class State:
     name: str
     isFinal: bool
     transitions: list[Transition]
-    
+
     def __init__(self, name: str):
         self.name = name
         self.isFinal = False
@@ -20,9 +20,7 @@ class State:
     def setFinal(self):
         self.isFinal = True
 
-    def addTransition(
-        self, state, read_char: str, write: str, direction: Direction
-    ):
+    def addTransition(self, state, read_char: str, write: str, direction: Direction):
         return self.addTransitions(state, Edge.instance(read_char, write, direction))
 
     def addTransitions(self, state, *edges):

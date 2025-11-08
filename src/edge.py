@@ -5,7 +5,7 @@ class Edge:
     read_char: str
     write: str
     direction: Direction
-    
+
     def __init__(self, read_char: str, write: str, direction: Direction):
         self.read_char = read_char
         self.write = write

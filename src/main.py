@@ -42,7 +42,9 @@ def teste_anbn():
 
 def teste_multiplo_3():
     """Turing Machine for binary numbers divisible by 3"""
-    print("\n=== Test 2: Binary multiples of 3 { w in Σ^* | w é um número binario multiplo de 3} ===")
+    print(
+        "\n=== Test 2: Binary multiples of 3 { w in Σ^* | w é um número binario multiplo de 3} ==="
+    )
     q0 = State("q0")
     q1 = State("q1")
     q2 = State("q2")
@@ -77,8 +79,12 @@ def teste_palindrome():
     qf.setFinal()
 
     # From q0: mark first symbol and move right
-    q0.addTransition(q1, "a", "X", Direction.RIGHT)  # Mark 'a' with X, look for matching 'a' at end
-    q0.addTransition(q3, "b", "Y", Direction.RIGHT)  # Mark 'b' with Y, look for matching 'b' at end
+    q0.addTransition(
+        q1, "a", "X", Direction.RIGHT
+    )  # Mark 'a' with X, look for matching 'a' at end
+    q0.addTransition(
+        q3, "b", "Y", Direction.RIGHT
+    )  # Mark 'b' with Y, look for matching 'b' at end
     q0.addTransition(qf, "_", "_", Direction.RIGHT)  # Empty string is palindrome
     q0.addTransition(qf, "X", "X", Direction.RIGHT)  # Only marks left, palindrome
     q0.addTransition(qf, "Y", "Y", Direction.RIGHT)  # Only marks left, palindrome
@@ -149,13 +155,13 @@ def run_all_tests():
     print("=" * 60)
     print("Running Turing Machine Test Suite")
     print("=" * 60)
-    
+
     results = []
     results.append(("Context-Free a^nb^n", teste_anbn()))
     results.append(("Binary Multiples of 3", teste_multiplo_3()))
     results.append(("Palindrome Recognition", teste_palindrome()))
     results.append(("Unary Addition", teste_unary_addition()))
-    
+
     print("\n" + "=" * 60)
     print("Test Summary")
     print("=" * 60)
@@ -167,4 +173,3 @@ def run_all_tests():
 
 if __name__ == "__main__":
     run_all_tests()
-

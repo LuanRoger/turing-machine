@@ -1,24 +1,33 @@
 from State import State
+from Direction import Direction
+from MachineLogger import MachineLogger
+
 class Machine: #AFD = (Q, Σ, δ, q0, F)
-    def __init__(self, q: State, w: str, _range: int):
+    def __init__(self, q: State, w: str, _range: int, enable_logging: bool = True):
         self.q = q
         self.w = w
         self.fita = []
+        self.logger = MachineLogger(enabled=enable_logging)
 
         #Ideia para Turing Machine abaixo, onde _range*2 eh o tamanho da fita da maquina:
         self.set_fita_space(_range)
         self.init_fita(w)
-        print(f'Fita: {self.fita}')
+        self.logger.log_initial_tape(self.fita, self.current)
 
     # Implementação da Maquina de Turing
     def run(self):
         if(self.q==None or self.w==None):
             return False
         
+        step = 0
         # Loop principal da máquina de Turing
         while True:
+            step += 1
             # Lê o símbolo atual da fita
             current_symbol = self.fita[self.current]
+            
+            # Log current step
+            self.logger.log_step(step, self.q.getName(), self.fita, self.current)
             
             # Busca a transição correspondente
             transition = self.q.transition(current_symbol)
@@ -30,20 +39,20 @@ class Machine: #AFD = (Q, Σ, δ, q0, F)
                 # Mostra a transição
                 write_symbol = edge.getWrite() if edge.getWrite() != None else current_symbol
                 direction = edge.getDirection()
-                print(f'{self.q.getName()} ({current_symbol}) -> {qNext.getName()} [write: {write_symbol}, dir: {direction}]')
+                self.logger.log_transition(self.q.getName(), current_symbol, qNext.getName(), write_symbol, direction)
                 
                 # Escreve na fita
                 if edge.getWrite() != None:
                     self.fita[self.current] = edge.getWrite()
                 
                 # Move a cabeça de leitura
-                if edge.getDirection() == 'D':  # Direita
+                if edge.getDirection() == Direction.RIGHT:  # Direita
                     self.current += 1
-                elif edge.getDirection() == 'E':  # Esquerda
+                elif edge.getDirection() == Direction.LEFT:  # Esquerda
                     self.current -= 1
                 elif edge.getDirection() == None:
                     # Se não há direção, não é uma máquina de Turing válida para esta transição
-                    print(f'Erro: Transição sem direção definida!')
+                    self.logger.log_error('Transição sem direção definida!')
                     return False
                 
                 # Atualiza o estado
@@ -51,7 +60,7 @@ class Machine: #AFD = (Q, Σ, δ, q0, F)
                 
                 # Verifica limites da fita
                 if self.current < 0 or self.current > self.max:
-                    print(f'Fita excedeu os limites!')
+                    self.logger.log_error('Fita excedeu os limites!')
                     return False
                     
             else:
@@ -59,17 +68,14 @@ class Machine: #AFD = (Q, Σ, δ, q0, F)
                 if self.q.isFinal:
                     break
                 # Se não está em estado final e não há transição, erro
-                print(f'{current_symbol} nao pertence ao alfabeto ou nao possui transicao!!')
+                self.logger.log_error(f'{current_symbol} nao pertence ao alfabeto ou nao possui transicao!!')
                 return False
 
         return self.print_result()
 
     def print_result(self):
         """ Print and Return True (ok) or False (no ok)"""
-        if(self.q.isFinal):
-            print(f'reconheceu: {self.w}')
-        else:
-            print(f'Não reconheceu: {self.w}')
+        self.logger.log_final_result(self.w, self.q.isFinal)
         return self.q.isFinal
 
     #Ideia para Turing Machine abaixo:

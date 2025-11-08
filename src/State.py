@@ -1,5 +1,6 @@
 from Edge import Edge
 from Transition import Transition
+from Direction import Direction
 
 class State:
     def __init__(self, name: str):
@@ -11,7 +12,7 @@ class State:
 	
     def setFinal(self): self.isFinal = True
 
-    def addTransition(self, state, c: str, write: str = None, direction: str = None):
+    def addTransition(self, state, c: str, write: str = None, direction: Direction = None):
         return self.addTransitions(state, Edge.instance(c, write, direction))
 
     def addTransitions(self, state, *edges):

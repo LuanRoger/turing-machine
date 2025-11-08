@@ -16,9 +16,9 @@ class Machine:
         self.tape = []
         self.logger = MachineLogger(enabled=enable_logging)
 
-        self.logger.log_initial_tape(self.tape, self.current)
         self.set_tape_space(_range)
         self.init_tape(input_word)
+        self.logger.log_initial_tape(self.tape, self.current)
 
     def run(self):
         step = 0
@@ -39,7 +39,6 @@ class Machine:
                 edge = transition.getEdge()
                 next_state = transition.getState()
 
-                # Mostra a transição
                 write_symbol = (
                     edge.getWrite() if edge.getWrite() is not None else current_symbol
                 )
@@ -52,33 +51,26 @@ class Machine:
                     direction,
                 )
 
-                # Escreve na fita
                 if edge.getWrite() is not None:
                     self.tape[self.current] = edge.getWrite()
 
-                # Move a cabeça de leitura
-                if edge.getDirection() == Direction.RIGHT:  # Direita
+                if edge.getDirection() == Direction.RIGHT:
                     self.current += 1
-                elif edge.getDirection() == Direction.LEFT:  # Esquerda
+                elif edge.getDirection() == Direction.LEFT:
                     self.current -= 1
                 elif edge.getDirection() is None:
-                    # Se não há direção, não é uma máquina de Turing válida para esta transição
                     self.logger.log_error("Transição sem direção definida!")
                     return False
 
-                # Atualiza o estado
                 self.current_state = next_state
 
-                # Verifica limites da fita
                 if self.current < 0 or self.current > self.max:
                     self.logger.log_error("Fita excedeu os limites!")
                     return False
 
             else:
-                # Se não há transição, verifica se está em estado final
                 if self.current_state.isFinal:
                     break
-                # Se não está em estado final e não há transição, erro
                 self.logger.log_error(
                     f"{current_symbol} nao pertence ao alfabeto ou nao possui transicao!!"
                 )
@@ -87,8 +79,10 @@ class Machine:
         return self.print_result()
 
     def print_result(self):
-        self.logger.log_final_result(self.input_word, self.current_state.isFinal)
-        return self.current_state.isFinal
+        is_final = self.current_state.isFinal
+        self.logger.log_final_result(self.input_word, is_final)
+
+        return is_final
 
     def init_tape(self, word):
         for char in list(word):
@@ -99,11 +93,9 @@ class Machine:
 
     def set_tape_space(self, _range):
         self.range = _range
-        self.max = self.range * 2
+        total_size = self.range * 2 + 2
 
-        self.tape.append("#")
-        for _ in range(1, self.max + 2):
-            self.tape.append(None)
+        self.tape = ["#"] + [None] * (total_size - 1)
 
         self.current = self.range + 1
-        self.max = self.max + 1
+        self.max = total_size - 1

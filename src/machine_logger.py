@@ -60,8 +60,6 @@ class MachineLogger:
         for i, symbol in enumerate(tape):
             if symbol is None:
                 symbol_repr = "_"
-            elif symbol == "#":
-                symbol_repr = "#"
             else:
                 symbol_repr = str(symbol)
 

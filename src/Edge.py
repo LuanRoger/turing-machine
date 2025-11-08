@@ -7,7 +7,7 @@ class Edge:
         self.write = write
         self.direction = direction
 
-    def getC(self):
+    def getChart(self):
         return self.read_char
 
     def getWrite(self):
@@ -22,12 +22,12 @@ class Edge:
 
     def equals(self, other):
         if isinstance(other, Edge):
-            return Edge.testAB(self.read_char, other.getC())
+            return Edge.campare(self.read_char, other.getChart())
         return False
 
     def __repr__(self):
         return f"[{self.read_char}]"
 
     @staticmethod
-    def testAB(char_a: str, char_b: str):
+    def campare(char_a: str, char_b: str):
         return char_a == char_b

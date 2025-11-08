@@ -21,7 +21,7 @@ def teste_y_x():
 
     w = "0000110"
 
-    mt = Machine(q0, w, 20)
+    mt = Machine(q0, w, 10)
     mt.run()
 
 

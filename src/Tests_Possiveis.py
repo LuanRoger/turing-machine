@@ -14,7 +14,7 @@ def teste_anbn():  # Livre de contexto
     qf.setFinal()
 
     q0.addTransition(q1, "a", "A", Direction.RIGHT)
-    q0.addTransition(q3, None, None, Direction.LEFT)
+    q0.addTransition(q3, "_", "_", Direction.LEFT)
     q0.addTransition(q4, "B", "B", Direction.RIGHT)
 
     q1.addTransition(q1, "a", "a", Direction.RIGHT)
@@ -26,11 +26,11 @@ def teste_anbn():  # Livre de contexto
     q2.addTransition(q0, "A", "A", Direction.RIGHT)
 
     q4.addTransition(q4, "B", "B", Direction.RIGHT)
-    q4.addTransition(q3, None, None, Direction.LEFT)
+    q4.addTransition(q3, "_", "_", Direction.LEFT)
 
     q3.addTransition(q3, "A", "A", Direction.LEFT)
     q3.addTransition(q3, "B", "B", Direction.LEFT)
-    q3.addTransition(qf, None, None, Direction.RIGHT)
+    q3.addTransition(qf, "_", "_", Direction.RIGHT)
 
     w = "aaabbb"
 

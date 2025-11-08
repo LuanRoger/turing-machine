@@ -2,8 +2,19 @@ from State import State
 from Direction import Direction
 from machine_logger import MachineLogger
 
+# Blank symbol for tape
+BLANK = "_"
+
 
 class Machine:
+    current_state: State
+    input_word: str
+    tape: list
+    logger: MachineLogger
+    range: int
+    current: int
+    max: int
+    
     def __init__(
         self,
         initial_state: State,
@@ -39,9 +50,7 @@ class Machine:
                 edge = transition.getEdge()
                 next_state = transition.getState()
 
-                write_symbol = (
-                    edge.getWrite() if edge.getWrite() is not None else current_symbol
-                )
+                write_symbol = edge.getWrite()
                 direction = edge.getDirection()
                 self.logger.log_transition(
                     self.current_state.getName(),
@@ -51,16 +60,12 @@ class Machine:
                     direction,
                 )
 
-                if edge.getWrite() is not None:
-                    self.tape[self.current] = edge.getWrite()
+                self.tape[self.current] = edge.getWrite()
 
                 if edge.getDirection() == Direction.RIGHT:
                     self.current += 1
                 elif edge.getDirection() == Direction.LEFT:
                     self.current -= 1
-                elif edge.getDirection() is None:
-                    self.logger.log_error("Transição sem direção definida!")
-                    return False
 
                 self.current_state = next_state
 
@@ -95,7 +100,7 @@ class Machine:
         self.range = _range
         total_size = self.range * 2 + 2
 
-        self.tape = ["#"] + [None] * (total_size - 1)
+        self.tape = ["#"] + [BLANK] * (total_size - 1)
 
         self.current = self.range + 1
         self.max = total_size - 1

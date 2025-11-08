@@ -4,6 +4,10 @@ from Direction import Direction
 
 
 class State:
+    name: str
+    isFinal: bool
+    transitions: list
+    
     def __init__(self, name: str):
         self.name = name
         self.isFinal = False
@@ -16,7 +20,7 @@ class State:
         self.isFinal = True
 
     def addTransition(
-        self, state, read_char: str, write: str = None, direction: Direction = None
+        self, state, read_char: str, write: str, direction: Direction
     ):
         return self.addTransitions(state, Edge.instance(read_char, write, direction))
 

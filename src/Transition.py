@@ -1,4 +1,7 @@
 class Transition:
+    state: object  # State object
+    edge: object   # Edge object
+    
     def __init__(self, state, edge):
         self.state = state
         self.edge = edge

@@ -1,5 +1,6 @@
 from Edge import Edge
 from Transition import Transition
+from Direction import Direction
 
 class State:
     def __init__(self, name: str):
@@ -11,8 +12,8 @@ class State:
 	
     def setFinal(self): self.isFinal = True
 
-    def addTransition(self, state, c: str):
-        return self.addTransitions(state, Edge.instance(c))
+    def addTransition(self, state, read_char: str, write: str = None, direction: Direction = None):
+        return self.addTransitions(state, Edge.instance(read_char, write, direction))
 
     def addTransitions(self, state, *edges):
         for edge in edges:
@@ -22,16 +23,16 @@ class State:
             self.transitions.append(transition)
         return self
 
-    def transition(self, _c: str):
-        for t in self.transitions:
-            e = t.getEdge()
-            if e.getC()!=None and e.getC()==_c:
-                return t
+    def transition(self, symbol: str):
+        for trans in self.transitions:
+            edge = trans.getEdge()
+            if edge.getC()==symbol:  # Permite comparar None com None
+                return trans
         return None
     
-    def equals(self, s):
-        if isinstance(s, State):
-            return s.getName()==self.getName()
+    def equals(self, other_state):
+        if isinstance(other_state, State):
+            return other_state.getName()==self.getName()
         return False
     
     def hashCode(self):

@@ -1,44 +1,87 @@
 from State import State
+from Direction import Direction
+from MachineLogger import MachineLogger
+
 class Machine: #AFD = (Q, Σ, δ, q0, F)
-    def __init__(self, q: State, w: str, _range: int):
-        self.q = q
-        self.w = w
+    def __init__(self, initial_state: State, input_word: str, _range: int, enable_logging: bool = True):
+        self.current_state = initial_state
+        self.input_word = input_word
         self.fita = []
+        self.logger = MachineLogger(enabled=enable_logging)
 
         #Ideia para Turing Machine abaixo, onde _range*2 eh o tamanho da fita da maquina:
         self.set_fita_space(_range)
-        self.init_fita(w)
-        print(f'Fita: {self.fita}')
+        self.init_fita(input_word)
+        self.logger.log_initial_tape(self.fita, self.current)
 
-    # OBS: a self.fita ja esta pronta com os dados.
-    # Por exemplo, voce pode usar o self.current como o indice de self.fita[self.current]. Como ficaria?
+    # Implementação da Maquina de Turing
     def run(self):
-        if(self.q==None or self.w==None):
+        if(self.current_state==None or self.input_word==None):
             return False
-        for c in list(self.w):
-            transition = self.q.transition(c)
+        
+        step = 0
+        # Loop principal da máquina de Turing
+        while True:
+            step += 1
+            # Lê o símbolo atual da fita
+            current_symbol = self.fita[self.current]
+            
+            # Log current step
+            self.logger.log_step(step, self.current_state.getName(), self.fita, self.current)
+            
+            # Busca a transição correspondente
+            transition = self.current_state.transition(current_symbol)
+            
             if transition != None:
-                qNext = transition.getState()
-                print(f'{self.q.getName()} ({c}) -> {qNext.getName()}')
-                self.q = qNext
+                edge = transition.getEdge()
+                next_state = transition.getState()
+                
+                # Mostra a transição
+                write_symbol = edge.getWrite() if edge.getWrite() != None else current_symbol
+                direction = edge.getDirection()
+                self.logger.log_transition(self.current_state.getName(), current_symbol, next_state.getName(), write_symbol, direction)
+                
+                # Escreve na fita
+                if edge.getWrite() != None:
+                    self.fita[self.current] = edge.getWrite()
+                
+                # Move a cabeça de leitura
+                if edge.getDirection() == Direction.RIGHT:  # Direita
+                    self.current += 1
+                elif edge.getDirection() == Direction.LEFT:  # Esquerda
+                    self.current -= 1
+                elif edge.getDirection() == None:
+                    # Se não há direção, não é uma máquina de Turing válida para esta transição
+                    self.logger.log_error('Transição sem direção definida!')
+                    return False
+                
+                # Atualiza o estado
+                self.current_state = next_state
+                
+                # Verifica limites da fita
+                if self.current < 0 or self.current > self.max:
+                    self.logger.log_error('Fita excedeu os limites!')
+                    return False
+                    
             else:
-                print(f'{c} nao pertence ao alfabeto ou nao possui transicao!!')
+                # Se não há transição, verifica se está em estado final
+                if self.current_state.isFinal:
+                    break
+                # Se não está em estado final e não há transição, erro
+                self.logger.log_error(f'{current_symbol} nao pertence ao alfabeto ou nao possui transicao!!')
                 return False
 
         return self.print_result()
 
     def print_result(self):
         """ Print and Return True (ok) or False (no ok)"""
-        if(self.q.isFinal):
-            print(f'reconheceu: {self.w}')
-        else:
-            print(f'Não reconheceu: {self.w}')
-        return self.q.isFinal
+        self.logger.log_final_result(self.input_word, self.current_state.isFinal)
+        return self.current_state.isFinal
 
     #Ideia para Turing Machine abaixo:
-    def init_fita(self, w):
-        for a in list(w):
-            self.fita[self.current] = a
+    def init_fita(self, word):
+        for char in list(word):
+            self.fita[self.current] = char
             self.current += 1
 
         self.current = self.range+1

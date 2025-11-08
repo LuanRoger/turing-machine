@@ -1,6 +1,6 @@
-from edge import Edge
-from transition import Transition
-from direction import Direction
+from Edge import Edge
+from Transition import Transition
+from Direction import Direction
 
 
 class State:
@@ -31,7 +31,7 @@ class State:
     def transition(self, symbol: str):
         for trans in self.transitions:
             edge = trans.getEdge()
-            if edge.getC() == symbol:
+            if edge.getChart() == symbol:
                 return trans
         return None
 

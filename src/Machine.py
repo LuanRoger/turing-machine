@@ -1,5 +1,5 @@
-from state import State
-from direction import Direction
+from State import State
+from Direction import Direction
 from machine_logger import MachineLogger
 
 

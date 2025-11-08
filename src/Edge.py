@@ -1,4 +1,4 @@
-from direction import Direction
+from Direction import Direction
 
 
 class Edge:

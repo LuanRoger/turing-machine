@@ -23,7 +23,7 @@ class Machine:
 
     # Implementação da Maquina de Turing
     def run(self):
-        if self.current_state == None or self.input_word == None:
+        if self.current_state is None or self.input_word is None:
             return False
 
         step = 0
@@ -41,13 +41,13 @@ class Machine:
             # Busca a transição correspondente
             transition = self.current_state.transition(current_symbol)
 
-            if transition != None:
+            if transition is not None:
                 edge = transition.getEdge()
                 next_state = transition.getState()
 
                 # Mostra a transição
                 write_symbol = (
-                    edge.getWrite() if edge.getWrite() != None else current_symbol
+                    edge.getWrite() if edge.getWrite() is not None else current_symbol
                 )
                 direction = edge.getDirection()
                 self.logger.log_transition(
@@ -59,7 +59,7 @@ class Machine:
                 )
 
                 # Escreve na fita
-                if edge.getWrite() != None:
+                if edge.getWrite() is not None:
                     self.fita[self.current] = edge.getWrite()
 
                 # Move a cabeça de leitura
@@ -67,7 +67,7 @@ class Machine:
                     self.current += 1
                 elif edge.getDirection() == Direction.LEFT:  # Esquerda
                     self.current -= 1
-                elif edge.getDirection() == None:
+                elif edge.getDirection() is None:
                     # Se não há direção, não é uma máquina de Turing válida para esta transição
                     self.logger.log_error("Transição sem direção definida!")
                     return False
@@ -93,20 +93,15 @@ class Machine:
         return self.print_result()
 
     def print_result(self):
-        """Print and Return True (ok) or False (no ok)"""
         self.logger.log_final_result(self.input_word, self.current_state.isFinal)
         return self.current_state.isFinal
 
-    # Ideia para Turing Machine abaixo:
     def init_fita(self, word):
         for char in list(word):
             self.fita[self.current] = char
             self.current += 1
 
         self.current = self.range + 1
-
-        # print(f'{self.fita}\nLEN: {len(self.fita)}\nMAX: {self.max}')
-        # print(f'current -> {self.fita[self.current]}')
 
     def set_fita_space(self, _range):
         self.range = _range

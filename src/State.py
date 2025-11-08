@@ -23,9 +23,7 @@ class State:
     def addTransitions(self, state, *edges):
         for edge in edges:
             transition = Transition(state, edge)
-            if (
-                transition in self.transitions
-            ):  # if (self.transitions.contains(transition))
+            if transition in self.transitions:
                 continue
             self.transitions.append(transition)
         return self
@@ -33,7 +31,7 @@ class State:
     def transition(self, symbol: str):
         for trans in self.transitions:
             edge = trans.getEdge()
-            if edge.getC() == symbol:  # Permite comparar None com None
+            if edge.getC() == symbol:
                 return trans
         return None
 

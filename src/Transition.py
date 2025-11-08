@@ -17,8 +17,8 @@ class Transition:
         return False
 
     def hashCode(self):
-        hash_code = self.state.hashCode() if self.state != None else 0
-        hash_code = 47 * hash_code + (self.edge.hashCode() if self.edge != None else 0)
+        hash_code = self.state.hashCode() if self.state is not None else 0
+        hash_code = 47 * hash_code + (self.edge.hashCode() if self.edge is not None else 0)
         return hash_code
 
     def __repr__(self):

@@ -13,29 +13,23 @@ class Machine:
     ):
         self.current_state = initial_state
         self.input_word = input_word
-        self.fita = []
+        self.tape = []
         self.logger = MachineLogger(enabled=enable_logging)
 
-        # Ideia para Turing Machine abaixo, onde _range*2 eh o tamanho da fita da maquina:
-        self.set_fita_space(_range)
-        self.init_fita(input_word)
-        self.logger.log_initial_tape(self.fita, self.current)
+        self.logger.log_initial_tape(self.tape, self.current)
+        self.set_tape_space(_range)
+        self.init_tape(input_word)
 
-    # Implementação da Maquina de Turing
     def run(self):
-        if self.current_state is None or self.input_word is None:
-            return False
-
         step = 0
-        # Loop principal da máquina de Turing
         while True:
             step += 1
             # Lê o símbolo atual da fita
-            current_symbol = self.fita[self.current]
+            current_symbol = self.tape[self.current]
 
             # Log current step
             self.logger.log_step(
-                step, self.current_state.getName(), self.fita, self.current
+                step, self.current_state.getName(), self.tape, self.current
             )
 
             # Busca a transição correspondente
@@ -60,7 +54,7 @@ class Machine:
 
                 # Escreve na fita
                 if edge.getWrite() is not None:
-                    self.fita[self.current] = edge.getWrite()
+                    self.tape[self.current] = edge.getWrite()
 
                 # Move a cabeça de leitura
                 if edge.getDirection() == Direction.RIGHT:  # Direita
@@ -96,20 +90,20 @@ class Machine:
         self.logger.log_final_result(self.input_word, self.current_state.isFinal)
         return self.current_state.isFinal
 
-    def init_fita(self, word):
+    def init_tape(self, word):
         for char in list(word):
-            self.fita[self.current] = char
+            self.tape[self.current] = char
             self.current += 1
 
         self.current = self.range + 1
 
-    def set_fita_space(self, _range):
+    def set_tape_space(self, _range):
         self.range = _range
         self.max = self.range * 2
 
-        self.fita.append("#")
-        for i in range(1, self.max + 2):
-            self.fita.append(None)
+        self.tape.append("#")
+        for _ in range(1, self.max + 2):
+            self.tape.append(None)
 
         self.current = self.range + 1
         self.max = self.max + 1

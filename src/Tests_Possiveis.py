@@ -30,7 +30,7 @@ def teste_anbn(): # Livre de contexto
     q3.addTransition(q3, 'B', 'B', 'E')
     q3.addTransition(qf, None, None, 'D')
 
-    w = 'aaabbbb'
+    w = 'aaabbb'
 
     mt = Machine(q0, w, 20)
     mt.run()

@@ -10,19 +10,56 @@ class Machine: #AFD = (Q, Σ, δ, q0, F)
         self.init_fita(w)
         print(f'Fita: {self.fita}')
 
-    # OBS: a self.fita ja esta pronta com os dados.
-    # Por exemplo, voce pode usar o self.current como o indice de self.fita[self.current]. Como ficaria?
+    # Implementação da Maquina de Turing
     def run(self):
         if(self.q==None or self.w==None):
             return False
-        for c in list(self.w):
-            transition = self.q.transition(c)
+        
+        # Loop principal da máquina de Turing
+        while True:
+            # Lê o símbolo atual da fita
+            current_symbol = self.fita[self.current]
+            
+            # Busca a transição correspondente
+            transition = self.q.transition(current_symbol)
+            
             if transition != None:
+                edge = transition.getEdge()
                 qNext = transition.getState()
-                print(f'{self.q.getName()} ({c}) -> {qNext.getName()}')
+                
+                # Mostra a transição
+                write_symbol = edge.getWrite() if edge.getWrite() != None else current_symbol
+                direction = edge.getDirection()
+                print(f'{self.q.getName()} ({current_symbol}) -> {qNext.getName()} [write: {write_symbol}, dir: {direction}]')
+                
+                # Escreve na fita
+                if edge.getWrite() != None:
+                    self.fita[self.current] = edge.getWrite()
+                
+                # Move a cabeça de leitura
+                if edge.getDirection() == 'D':  # Direita
+                    self.current += 1
+                elif edge.getDirection() == 'E':  # Esquerda
+                    self.current -= 1
+                elif edge.getDirection() == None:
+                    # Se não há direção, não é uma máquina de Turing válida para esta transição
+                    print(f'Erro: Transição sem direção definida!')
+                    return False
+                
+                # Atualiza o estado
                 self.q = qNext
+                
+                # Verifica limites da fita
+                if self.current < 0 or self.current > self.max:
+                    print(f'Fita excedeu os limites!')
+                    return False
+                    
             else:
-                print(f'{c} nao pertence ao alfabeto ou nao possui transicao!!')
+                # Se não há transição, verifica se está em estado final
+                if self.q.isFinal:
+                    break
+                # Se não está em estado final e não há transição, erro
+                print(f'{current_symbol} nao pertence ao alfabeto ou nao possui transicao!!')
                 return False
 
         return self.print_result()

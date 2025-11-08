@@ -13,14 +13,14 @@ def teste_y_x():
     q2 = State('q2')
     q0.setFinal()
 
-    q0.addTransition(q0, '0')
-    q0.addTransition(q1, '1')
+    q0.addTransition(q0, '0', '0', 'D')
+    q0.addTransition(q1, '1', '1', 'D')
 
-    q1.addTransition(q0, '1')
-    q1.addTransition(q2, '0')
+    q1.addTransition(q0, '1', '1', 'D')
+    q1.addTransition(q2, '0', '0', 'D')
 
-    q2.addTransition(q2, '1')
-    q2.addTransition(q1, '0')
+    q2.addTransition(q2, '1', '1', 'D')
+    q2.addTransition(q1, '0', '0', 'D')
 
     w = '0000110'
 

@@ -11,8 +11,8 @@ class State:
 	
     def setFinal(self): self.isFinal = True
 
-    def addTransition(self, state, c: str):
-        return self.addTransitions(state, Edge.instance(c))
+    def addTransition(self, state, c: str, write: str = None, direction: str = None):
+        return self.addTransitions(state, Edge.instance(c, write, direction))
 
     def addTransitions(self, state, *edges):
         for edge in edges:
@@ -25,7 +25,7 @@ class State:
     def transition(self, _c: str):
         for t in self.transitions:
             e = t.getEdge()
-            if e.getC()!=None and e.getC()==_c:
+            if e.getC()==_c:  # Permite comparar None com None
                 return t
         return None
     

@@ -1,12 +1,16 @@
 class Edge:
-    def __init__(self, c: str): # Incluir os outros dados da maquina
+    def __init__(self, c: str, write: str = None, direction: str = None):
         self.c = c
+        self.write = write
+        self.direction = direction
 
     def getC(self): return self.c
+    def getWrite(self): return self.write
+    def getDirection(self): return self.direction
 
     @staticmethod
-    def instance(c: str):
-        return Edge(c)
+    def instance(c: str, write: str = None, direction: str = None):
+        return Edge(c, write, direction)
 
     def equals(self, o):
         if isinstance(o, Edge):

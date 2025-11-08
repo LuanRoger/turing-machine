@@ -1,9 +1,14 @@
-from edge import Edge
-from transition import Transition
-from direction import Direction
+from __future__ import annotations
+from Edge import Edge
+from Transition import Transition
+from Direction import Direction
 
 
 class State:
+    name: str
+    isFinal: bool
+    transitions: list[Transition]
+    
     def __init__(self, name: str):
         self.name = name
         self.isFinal = False
@@ -16,7 +21,7 @@ class State:
         self.isFinal = True
 
     def addTransition(
-        self, state, read_char: str, write: str = None, direction: Direction = None
+        self, state, read_char: str, write: str, direction: Direction
     ):
         return self.addTransitions(state, Edge.instance(read_char, write, direction))
 
@@ -31,7 +36,7 @@ class State:
     def transition(self, symbol: str):
         for trans in self.transitions:
             edge = trans.getEdge()
-            if edge.getC() == symbol:
+            if edge.getChart() == symbol:
                 return trans
         return None
 

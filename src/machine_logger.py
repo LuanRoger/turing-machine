@@ -2,6 +2,9 @@ import logging
 
 
 class MachineLogger:
+    enabled: bool
+    logger: logging.Logger
+    
     def __init__(self, enabled: bool = True):
         self.enabled = enabled
         self._setup_logger()
@@ -58,10 +61,7 @@ class MachineLogger:
     def _format_tape(self, tape, current_pos):
         tape_str = "["
         for i, symbol in enumerate(tape):
-            if symbol is None:
-                symbol_repr = "_"
-            else:
-                symbol_repr = str(symbol)
+            symbol_repr = str(symbol)
 
             if i == current_pos:
                 tape_str += f">{symbol_repr}<"

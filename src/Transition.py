@@ -1,4 +1,11 @@
+from State import State
+from Edge import Edge
+
+
 class Transition:
+    state: State
+    edge: Edge
+
     def __init__(self, state, edge):
         self.state = state
         self.edge = edge
@@ -15,11 +22,6 @@ class Transition:
                 self.edge
             ) and other_transition.getState().equals(self.state)
         return False
-
-    def hashCode(self):
-        hash_code = self.state.hashCode() if self.state is not None else 0
-        hash_code = 47 * hash_code + (self.edge.hashCode() if self.edge is not None else 0)
-        return hash_code
 
     def __repr__(self):
         return f"{self.edge} --> {self.state.getName()}"

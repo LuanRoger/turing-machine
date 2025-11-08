@@ -1,8 +1,12 @@
-from direction import Direction
+from Direction import Direction
 
 
 class Edge:
-    def __init__(self, read_char: str, write: str = None, direction: Direction = None):
+    read_char: str
+    write: str
+    direction: Direction
+    
+    def __init__(self, read_char: str, write: str, direction: Direction):
         self.read_char = read_char
         self.write = write
         self.direction = direction
@@ -17,7 +21,7 @@ class Edge:
         return self.direction
 
     @staticmethod
-    def instance(read_char: str, write: str = None, direction: Direction = None):
+    def instance(read_char: str, write: str, direction: Direction):
         return Edge(read_char, write, direction)
 
     def equals(self, other):

@@ -1,0 +1,10 @@
+[project]
+name = "turing-machine"
+version = "0.1.0"
+description = "Turing machine simulator"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[dependency-groups]
+dev = ["ruff>=0.14.4"]

@@ -1,6 +1,6 @@
-from Edge import Edge
-from Transition import Transition
-from Direction import Direction
+from edge import Edge
+from transition import Transition
+from direction import Direction
 
 
 class State:

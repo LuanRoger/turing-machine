@@ -1,9 +1,9 @@
-from State import State
-from Direction import Direction
-from MachineLogger import MachineLogger
+from state import State
+from direction import Direction
+from machine_logger import MachineLogger
 
 
-class Machine:  # AFD = (Q, Σ, δ, q0, F)
+class Machine:
     def __init__(
         self,
         initial_state: State,

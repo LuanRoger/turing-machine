@@ -1,6 +1,6 @@
-from State import State
-from Machine import Machine
-from Direction import Direction
+from state import State
+from machine import Machine
+from direction import Direction
 
 
 def teste_anbn():  # Livre de contexto

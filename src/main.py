@@ -1,9 +1,6 @@
-# .\.venv\Scripts\python.exe -m pip install readchar
-# import threading
-# import readchar
-from State import State
-from Machine import Machine
-from Direction import Direction
+from state import State
+from machine import Machine
+from direction import Direction
 
 
 def teste_y_x():

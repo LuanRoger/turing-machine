@@ -33,15 +33,12 @@ class Machine:
         step = 0
         while True:
             step += 1
-            # Lê o símbolo atual da fita
             current_symbol = self.tape[self.current]
 
-            # Log current step
             self.logger.log_step(
                 step, self.current_state.getName(), self.tape, self.current
             )
 
-            # Busca a transição correspondente
             transition = self.current_state.transition(current_symbol)
 
             if transition is not None:

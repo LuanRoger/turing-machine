@@ -78,38 +78,28 @@ def teste_palindrome():
     qf = State("qf")
     qf.setFinal()
 
-    # From q0: mark first symbol and move right
-    q0.addTransition(
-        q1, "a", "X", Direction.RIGHT
-    )  # Mark 'a' with X, look for matching 'a' at end
-    q0.addTransition(
-        q3, "b", "Y", Direction.RIGHT
-    )  # Mark 'b' with Y, look for matching 'b' at end
-    q0.addTransition(qf, "_", "_", Direction.RIGHT)  # Empty string is palindrome
-    q0.addTransition(qf, "X", "X", Direction.RIGHT)  # Only marks left, palindrome
-    q0.addTransition(qf, "Y", "Y", Direction.RIGHT)  # Only marks left, palindrome
+    q0.addTransition(q1, "a", "X", Direction.RIGHT)
+    q0.addTransition(q3, "b", "Y", Direction.RIGHT)
+    q0.addTransition(qf, "_", "_", Direction.RIGHT)
+    q0.addTransition(qf, "X", "X", Direction.RIGHT)
+    q0.addTransition(qf, "Y", "Y", Direction.RIGHT)
 
-    # q1: Skip to end to check for 'a'
     q1.addTransition(q1, "a", "a", Direction.RIGHT)
     q1.addTransition(q1, "b", "b", Direction.RIGHT)
     q1.addTransition(q1, "X", "X", Direction.RIGHT)
     q1.addTransition(q1, "Y", "Y", Direction.RIGHT)
     q1.addTransition(q2, "_", "_", Direction.LEFT)
 
-    # q2: Check last symbol is 'a', then go back
     q2.addTransition(q5, "a", "X", Direction.LEFT)
 
-    # q3: Skip to end to check for 'b'
     q3.addTransition(q3, "a", "a", Direction.RIGHT)
     q3.addTransition(q3, "b", "b", Direction.RIGHT)
     q3.addTransition(q3, "X", "X", Direction.RIGHT)
     q3.addTransition(q3, "Y", "Y", Direction.RIGHT)
     q3.addTransition(q4, "_", "_", Direction.LEFT)
 
-    # q4: Check last symbol is 'b', then go back
     q4.addTransition(q5, "b", "Y", Direction.LEFT)
 
-    # q5: Go back to beginning
     q5.addTransition(q5, "a", "a", Direction.LEFT)
     q5.addTransition(q5, "b", "b", Direction.LEFT)
     q5.addTransition(q5, "X", "X", Direction.LEFT)
@@ -132,15 +122,12 @@ def teste_unary_addition():
     qf = State("qf")
     qf.setFinal()
 
-    # Skip to the + sign
     q0.addTransition(q0, "1", "1", Direction.RIGHT)
-    q0.addTransition(q1, "+", "1", Direction.RIGHT)  # Replace + with 1
+    q0.addTransition(q1, "+", "1", Direction.RIGHT)
 
-    # Skip to the end
     q1.addTransition(q1, "1", "1", Direction.RIGHT)
     q1.addTransition(q2, "_", "_", Direction.LEFT)
 
-    # Remove last 1
     q2.addTransition(qf, "1", "_", Direction.LEFT)
 
     w = "111+11"

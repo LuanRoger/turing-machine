@@ -1,6 +1,6 @@
-from state import State
-from machine import Machine
 from direction import Direction
+from machine import Machine
+from state import State
 
 
 def teste_anbn():
@@ -36,7 +36,7 @@ def teste_anbn():
     w = "aaabbb"
     mt = Machine(q0, w, 20, enable_logging=False)
     result = mt.run()
-    print(f"Result: {'ACCEPTED' if result else 'REJECTED'}")
+    print(f"Resultado: {'ACEITO' if result else 'REJEITADO'}")
     return result
 
 
@@ -62,7 +62,7 @@ def teste_multiplo_3():
     w = "0000110"
     mt = Machine(q0, w, 10, enable_logging=False)
     result = mt.run()
-    print(f"Result: {'ACCEPTED' if result else 'REJECTED'}")
+    print(f"Resultado: {'ACEITO' if result else 'REJEITADO'}")
     return result
 
 
@@ -109,7 +109,7 @@ def teste_palindrome():
     w = "abba"
     mt = Machine(q0, w, 20, enable_logging=False)
     result = mt.run()
-    print(f"Result: {'ACCEPTED' if result else 'REJECTED'}")
+    print(f"Resultado: {'ACEITO' if result else 'REJEITADO'}")
     return result
 
 
@@ -133,14 +133,14 @@ def teste_unary_addition():
     w = "111+11"
     mt = Machine(q0, w, 15, enable_logging=False)
     result = mt.run()
-    print(f"Result: {'ACCEPTED' if result else 'REJECTED'}")
+    print(f"Resultado: {'ACEITO' if result else 'REJEITADO'}")
     return result
 
 
 def run_all_tests():
     """Run all test cases"""
     print("=" * 60)
-    print("Running Turing Machine Test Suite")
+    print("Teste para maquina de turing")
     print("=" * 60)
 
     results = []
@@ -150,10 +150,10 @@ def run_all_tests():
     results.append(("Unary Addition", teste_unary_addition()))
 
     print("\n" + "=" * 60)
-    print("Test Summary")
+    print("Resultados")
     print("=" * 60)
     for name, result in results:
-        status = "✓ PASSED" if result else "✗ FAILED"
+        status = "✓ PASSOU" if result else "✗ FALHOU"
         print(f"{name:30s} {status}")
     print("=" * 60)
 
